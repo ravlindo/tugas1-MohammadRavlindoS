@@ -1,69 +1,48 @@
-# Data Tugas 1
+# Dataset idn-news-az
 
-## Dataset yang Dipilih
+## Informasi dataset
 
-| Item | Isi |
+| Item | Keterangan |
 |---|---|
-| Nama dataset | `idn-news-az - Indonesian News Dataset` |
-| Sumber | `https://huggingface.co/datasets/esteler-ai/idn-news-az` |
-| Lisensi/ketentuan pakai | `Creative Commons Attribution 4.0 (CC BY 4.0)` |
-| Ukuran | `±1.56 GB dan 1.149.789 baris` |
-| Periode data | `Mayoritas Januari 2023 - Oktober 2023, dengan sebagian data lebih lama` |
-| Unit analisis | `Satu artikel berita Indonesia per baris` |
+| Nama | `idn-news-az - Indonesian News Dataset` |
+| Sumber | [Hugging Face](https://huggingface.co/datasets/esteler-ai/idn-news-az) |
+| Lisensi | Creative Commons Attribution 4.0 (CC BY 4.0) |
+| Format | Parquet |
+| Jumlah file | 441 |
+| Jumlah baris | 1.149.789 artikel |
+| Ukuran | 1.558.347.901 byte (sekitar 1,56 GB) |
+| Unit analisis | Satu artikel berita Indonesia per baris |
 
-Dataset `idn-news-az` merupakan kumpulan artikel berita dari berbagai
-portal berita Indonesia.
+Dataset memiliki empat kolom utama:
 
-Dataset tersedia dalam format Parquet dan terdiri dari lebih dari satu juta
-baris sehingga memenuhi ketentuan ukuran Dataset Tugas 1.
+- `date`: tanggal publikasi;
+- `link`: URL sumber artikel;
+- `title`: judul artikel;
+- `text`: isi artikel.
 
-Kolom utama yang tersedia pada dataset antara lain:
+## Lokasi penyimpanan
 
-- `date` : tanggal publikasi artikel
-- `link` : URL sumber artikel
-- `title` : judul artikel
-- `text` : isi artikel
+Seluruh file data mentah disimpan tanpa modifikasi di:
 
-## Tempat Mencari Dataset
+```text
+data/raw/idn-news-az/data_files/*.parquet
+```
 
-Pilih dataset Indonesia yang legal digunakan, dapat didokumentasikan sumbernya,
-dan memenuhi batas ukuran tugas.
+Folder tersebut sengaja diabaikan oleh Git. Cache dari proses pengunduhan tidak
+diperlukan untuk menjalankan analisis dan tidak disimpan di dalam proyek.
 
-| Situs | Kegunaan |
-|---|---|
-| [Satu Data Indonesia](https://data.go.id/) | Portal data terbuka lintas instansi pemerintah Indonesia. |
-| [Badan Pusat Statistik](https://www.bps.go.id/) | Statistik sosial, ekonomi, kependudukan, dan data wilayah. |
-| [BMKG Data Online](https://dataonline.bmkg.go.id/) | Data cuaca, iklim, gempa bumi, dan observasi meteorologi. |
-| [Hugging Face Datasets](https://huggingface.co/datasets) | Dataset publik yang dapat dicari berdasarkan topik, bahasa, atau ukuran. |
-| [Kaggle Datasets](https://www.kaggle.com/datasets) | Katalog dataset publik; periksa lisensi dan dokumentasi pembuatnya. |
-| [Google Dataset Search](https://datasetsearch.research.google.com/) | Mesin pencari untuk menemukan dataset dari berbagai portal. |
+## Cara memperoleh data
 
-Dataset yang digunakan pada tugas ini diperoleh dari
-[Hugging Face Datasets](https://huggingface.co/datasets/esteler-ai/idn-news-az).
+1. Buka repository dataset
+   [`esteler-ai/idn-news-az`](https://huggingface.co/datasets/esteler-ai/idn-news-az/tree/main/data_files).
+2. Unduh semua file `.parquet` dari folder `data_files`.
+3. Simpan seluruh file ke `data/raw/idn-news-az/data_files/`.
+4. Jangan mengubah file mentah. Hasil cleaning disimpan terpisah di
+   `data/processed/`.
 
-## Cara Memperoleh Data
+Notebook `notebooks/01_data_profiling.ipynb` membaca seluruh file menggunakan
+`pl.scan_parquet()` agar pemrosesan memanfaatkan lazy evaluation dan tidak
+memuat dataset sekaligus ke memori.
 
-1. Buka halaman dataset:
-   `https://huggingface.co/datasets/esteler-ai/idn-news-az`
-2. Unduh seluruh file dataset dengan format Parquet dari folder `data_files`.
-3. Simpan file tanpa melakukan perubahan pada folder:
-
-   `data/raw/idn-news-az/`
-
-4. Catat nama file dan checksum apabila tersedia pada sumber dataset.
-5. File pada `data/raw/` digunakan sebagai data mentah dan tidak dimodifikasi.
-6. Pada `notebooks/01_data_profiling.ipynb`, arahkan lokasi dataset ke:
-
-   `../data/raw/idn-news-az/*.parquet`
-
-7. Dataset dibaca menggunakan Polars Lazy API dengan `scan_parquet()` agar
-   pengolahan dataset besar lebih efisien.
-
-## Aturan Penyimpanan
-
-- Jangan commit dataset mentah atau hasil olahan berukuran besar ke Git.
-- File pada `data/raw/` adalah data asli dan tidak boleh diubah.
-- Dataset mentah disimpan pada `data/raw/idn-news-az/`.
-- Simpan hasil transformasi yang dapat direproduksi pada `data/processed/`.
-- Hanya dokumentasi, notebook, source code, dan konfigurasi proyek yang
-  disimpan pada repository GitHub.
+Dataset memenuhi ketentuan tugas karena ukurannya lebih dari 500 MB dan jumlah
+barisnya lebih dari satu juta.
